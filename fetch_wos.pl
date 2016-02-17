@@ -9,7 +9,6 @@ use XML::Writer;
 use XML::Simple;
 use Try::Tiny;
 use LWP::UserAgent;
-use YAML;
 
 option verbose => (
     is => 'ro',
@@ -29,7 +28,7 @@ option dry => (
 
 Catmandu->load;
 
-my $exporter = Catmandu::Exporter::JSON->new(file => 'wos_citations.json');
+#my $exporter = Catmandu::Exporter::JSON->new(file => 'wos_citations.json');
 
 sub _generate_xml {
     my ($self, @data) = @_;
@@ -83,8 +82,6 @@ sub _do_request {
         Content => $content,
         );
 
-    print Dump $response->{_content} if $self->verbose;
-
     $response->is_success ? return $response->{_content} : return 0;
 }
 
@@ -112,7 +109,7 @@ sub _parse_xml {
                 times_cited => $tmp->{timesCited}->{content} || '',
             };
 
-            $exporter->add($data);
+            Catmandu->exporter->add($data);
         }
     } catch {
         print STDERR "Error: $_";
@@ -122,7 +119,7 @@ sub _parse_xml {
 sub run {
     my ($self) = @_;
 
-    my $input = Catmandu->importer('csv', file => $self->file)->to_array;
+    my $input = Catmandu->importer->to_array;
 
     while ( my @chunks = splice(@$input,0,20) ) {
 

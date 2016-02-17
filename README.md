@@ -7,37 +7,42 @@ A small project to fetch *Times Cited* information from Web of Science
 Make sure all the dependencies are installed:
 
 ```bash
+$ cpanm --installdeps .
+
+# or equivalently
+
 $ make install
 ```
 
 ## Usage
 
-You need a file called `wos.csv` which looks like
+You need a file `data/ut.csv` which looks like
 ```csv
-wos
-12345678
-87654321
-98765433
+_id,ut,pmid,doi
+1,000234329432,2345678,10.1103/PhysRevLett.104.121102
+2,324230000983,87654321,10.1016/j.jedc.2009.09.007
+3,000230293002,98765433,10.5194/acp-8-5221-2008
 ```
 
-Run the following command
+Run the following command via Makefile
+
+(if make is not available on your system then run the commands defined in `Makefile`)
 
 ```bash
-$ perl fetch_epmc.pl --initial
+$ make
+
+# or equivalently
+
+$ make timescited
 ```
+to fetch the data from the Web of Science.
 
-to fetch the initial data from Europe PMC. Then you may specify the source to be fetched, e.g. `citations`
-
+Import the data in some database
 ```bash
-$ perl fetch_epmc.pl -s citations
+$ make import
 ```
 
-Run
-
+and clean up you directory, please:
 ```bash
-$ perl fetch_epmc.pl --help
+$ make clean
 ```
-
-to display more options.
-
-There's also a tiny `Makefile` as a wrapper for the fetch_epmc.pl script.

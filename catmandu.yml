@@ -1,9 +1,10 @@
 importer:
-  csv:
-    package: CSV
-exporter:
-  csv:
+  default:
     package: CSV
     options:
-      always_quote: 1
-      header: 1
+      file: data/ut.csv
+exporter:
+  default:
+    package: JSON
+    options:
+      file: data/wos_citations.json

@@ -6,6 +6,9 @@ on test {
 };
 
 requires 'Catmandu';
-requires 'Catmandu::Importer::getJSON';
+requires 'Moo';
 requires 'MooX::Options';
-requires 'Try::Tiny'
+requires 'XML::Writer';
+requires 'XML::Simple';
+requires 'Try::Tiny';
+requires 'LWP::requirerAgent';

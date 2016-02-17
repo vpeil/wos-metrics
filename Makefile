@@ -1,17 +1,21 @@
 PROG=perl fetch_wos.pl
 
-.PHONY: install clean timescited
+.PHONY: install clean timescited import
 
-timescited: ut.csv
-	$(PROG) --initial_file ut.csv
+timescited: data/ut.csv
+	$(PROG) --file data/ut.csv
 
-ut.csv:
+data/ut.csv:
 	catmandu -L /srv/www/pub export backup --bag publication \
 	to JSON --fix export.fix | egrep 'ut|doi|pmid' \
-	| catmandu convert to CSV --fields '_id,ut,pmid,doi' > ut.csv
+	| catmandu convert to CSV --fields '_id,ut,pmid,doi' > data/ut.csv
 
-install:
+import: data/wos_citations.json
+	catmandu -L /srv/www/pub import JSON \
+	to metrics --bag wos --fix "vacuum()" < data/wos_citations.json
+
+install: cpanfile
 	cpanm --installdeps .
 
 clean:
-	rm *.csv && rm *.log
+	rm *.csv && rm *.log && rm data/*
