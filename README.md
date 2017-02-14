@@ -42,7 +42,7 @@ Import the data in some database
 $ make import
 ```
 
-and clean up you directory, please:
+and clean up your directory, please:
 ```bash
 $ make clean
 ```
