@@ -2,7 +2,6 @@
 
 use Catmandu::Sane;
 use Catmandu;
-use Catmandu::Exporter::JSON;
 use Moo;
 use MooX::Options;
 use XML::Writer;
@@ -18,7 +17,7 @@ option verbose => (
 option file => (
     is => 'ro',
     format => 's',
-    default => sub {'ut.csv'},
+    default => sub {'data/ut.csv'},
     doc => "Specify the input file, default is 'ut.csv' in the pwd.",
     );
 option dry => (
@@ -28,7 +27,7 @@ option dry => (
 
 Catmandu->load;
 
-#my $exporter = Catmandu::Exporter::JSON->new(file => 'wos_citations.json');
+my $exporter = Catmandu->exporter;
 
 sub _generate_xml {
     my ($self, @data) = @_;
@@ -47,7 +46,7 @@ sub _generate_xml {
     $xml->dataElement('val', 'citingArticlesURL');
     $xml->dataElement('val', 'ut');
     $xml->dataElement('val', 'doi');
-    $xml->dataElement('val', 'doi');
+    $xml->dataElement('val', 'pmid');
     $xml->endTag('list');
     $xml->endTag('map');
 
@@ -109,7 +108,7 @@ sub _parse_xml {
                 times_cited => $tmp->{timesCited}->{content} || '',
             };
 
-            Catmandu->exporter->add($data);
+            $exporter->add($data);
         }
     } catch {
         print STDERR "Error: $_";

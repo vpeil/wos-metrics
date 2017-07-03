@@ -1,0 +1,4 @@
+select all_match(status,public);
+move_field(external_id.pmid,pmid);
+move_field(external_id.isi,ut);
+retain(_id,doi,ut,pmid)

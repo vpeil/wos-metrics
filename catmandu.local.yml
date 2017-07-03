@@ -1,0 +1,7 @@
+store:
+  default:
+    package: DBI
+    options:
+      data_source: "DBI:mysql:database=PUBMetrics"
+      username: bup
+      password: GohZeit2
